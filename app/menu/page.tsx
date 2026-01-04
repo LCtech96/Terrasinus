@@ -670,7 +670,7 @@ function ExpandableSection({ title, section, isOpen, onToggle, customContent }: 
     <div className="bg-card border border-border rounded-lg overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 md:p-6 hover:bg-accent transition-colors"
+        className="w-full flex items-center justify-between p-4 md:p-6 hover:bg-accent transition-colors text-card-foreground"
       >
         <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
         {isOpen ? (
@@ -687,30 +687,30 @@ function ExpandableSection({ title, section, isOpen, onToggle, customContent }: 
             <div className="border-t border-border p-4 md:p-6 space-y-8">
               {sections.map((sec, secIndex) => (
                 <div key={secIndex} className="space-y-4">
-                  <h4 className="text-lg md:text-xl font-bold border-b border-border pb-2">
+                  <h4 className="text-lg md:text-xl font-bold border-b-2 border-primary/30 pb-2 text-card-foreground">
                     {sec.title}
                   </h4>
                   {sec.items.map((item, itemIndex) => (
                     <div
                       key={itemIndex}
-                      className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 pb-4 border-b border-border last:border-0 last:pb-0"
+                      className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 pb-4 border-b border-border/50 last:border-0 last:pb-0"
                     >
                       <div className="flex-1">
-                        <div className="flex items-start gap-2 mb-1">
-                          <h5 className="text-base md:text-lg font-semibold">{item.name}</h5>
+                        <div className="flex items-start gap-2 mb-1 flex-wrap">
+                          <h5 className="text-base md:text-lg font-semibold text-card-foreground">{item.name}</h5>
                           {item.menuItem && (
-                            <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded whitespace-nowrap">
+                            <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded whitespace-nowrap font-medium">
                               Piatto menù
                             </span>
                           )}
                           {item.glutenFree && (
-                            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded whitespace-nowrap">
+                            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded whitespace-nowrap font-medium">
                               no glutine
                             </span>
                           )}
                         </div>
                         {item.description && (
-                          <p className="text-sm md:text-base text-muted-foreground mt-1">
+                          <p className="text-sm md:text-base text-card-foreground/80 mt-1 leading-relaxed">
                             {item.description}
                           </p>
                         )}
@@ -755,14 +755,14 @@ export default function MenuPage() {
         <div className="max-w-4xl mx-auto space-y-12 md:space-y-16">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Menù Terrasinus</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">Menù Terrasinus</h1>
           </div>
 
           {/* Menù Fisso */}
-          <div className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary rounded-2xl p-6 md:p-8 space-y-6">
+          <div className="bg-card border-2 border-primary/30 rounded-2xl p-6 md:p-8 space-y-6 shadow-lg">
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">{menuFisso.title}</h2>
-              <p className="text-muted-foreground mb-4">{menuFisso.description}</p>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2 text-card-foreground">{menuFisso.title}</h2>
+              <p className="text-card-foreground/80 mb-4">{menuFisso.description}</p>
               <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                 <p className="text-sm text-amber-900 dark:text-amber-200 font-semibold">
                   {menuFisso.warning}
@@ -772,11 +772,11 @@ export default function MenuPage() {
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-xl font-semibold mb-3">Antipasti</h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 text-card-foreground">Antipasti</h3>
+                <ul className="space-y-2">
                   {menuFisso.courses.antipasti.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
+                    <li key={index} className="flex items-start gap-2 text-card-foreground/90">
+                      <span className="text-primary mt-1 font-bold">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -784,11 +784,11 @@ export default function MenuPage() {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-3">Primi</h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 text-card-foreground">Primi</h3>
+                <ul className="space-y-2">
                   {menuFisso.courses.primi.map((item, index) => (
-                    <li key={index} className={item === "oppure" ? "italic text-center py-2" : "flex items-start gap-2"}>
-                      {item !== "oppure" && <span className="text-primary mt-1">•</span>}
+                    <li key={index} className={item === "oppure" ? "italic text-center py-2 text-card-foreground/70" : "flex items-start gap-2 text-card-foreground/90"}>
+                      {item !== "oppure" && <span className="text-primary mt-1 font-bold">•</span>}
                       <span>{item}</span>
                     </li>
                   ))}
@@ -796,11 +796,11 @@ export default function MenuPage() {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-3">Secondo</h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 text-card-foreground">Secondo</h3>
+                <ul className="space-y-2">
                   {menuFisso.courses.secondo.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
+                    <li key={index} className="flex items-start gap-2 text-card-foreground/90">
+                      <span className="text-primary mt-1 font-bold">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -808,11 +808,11 @@ export default function MenuPage() {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-3">Bevanda</h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <h3 className="text-xl font-semibold mb-3 text-card-foreground">Bevanda</h3>
+                <ul className="space-y-2">
                   {menuFisso.courses.bevanda.map((item, index) => (
-                    <li key={index} className={item.includes("a scelta") || item === "o" ? "italic text-center py-1" : "flex items-start gap-2"}>
-                      {!item.includes("a scelta") && item !== "o" && <span className="text-primary mt-1">•</span>}
+                    <li key={index} className={item.includes("a scelta") || item === "o" ? "italic text-center py-1 text-card-foreground/70" : "flex items-start gap-2 text-card-foreground/90"}>
+                      {!item.includes("a scelta") && item !== "o" && <span className="text-primary mt-1 font-bold">•</span>}
                       <span>{item}</span>
                     </li>
                   ))}
@@ -874,8 +874,8 @@ export default function MenuPage() {
               <div className="border-t border-border p-4 md:p-6 space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                      <strong>Regolamento CEE 1169/2011 D.L. n.109 del 27 gennaio 992 sezione III - D.L. n.114/2006</strong>
+                    <p className="text-sm text-card-foreground/90 leading-relaxed mb-4">
+                      <strong className="text-card-foreground">Regolamento CEE 1169/2011 D.L. n.109 del 27 gennaio 992 sezione III - D.L. n.114/2006</strong>
                     </p>
                     <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-6">
                       I nostri piatti possono contenere allergeni.
@@ -884,73 +884,73 @@ export default function MenuPage() {
 
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Glutine</h4>
-                      <p className="text-sm text-muted-foreground">cereali, grano, segale, orzo, avena, farro, kamut, inclusi ibridati derivati.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Glutine</h4>
+                      <p className="text-sm text-card-foreground/85">cereali, grano, segale, orzo, avena, farro, kamut, inclusi ibridati derivati.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Crostacei e derivati</h4>
-                      <p className="text-sm text-muted-foreground">marini e d'acqua dolce: gamberi, scampi, granchi e simili.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Crostacei e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">marini e d&apos;acqua dolce: gamberi, scampi, granchi e simili.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Uova</h4>
-                      <p className="text-sm text-muted-foreground">uova e prodotti che le contengono: maionese, emulsionanti, pasta all'uovo.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Uova</h4>
+                      <p className="text-sm text-card-foreground/85">uova e prodotti che le contengono: maionese, emulsionanti, pasta all&apos;uovo.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Pesce e derivati</h4>
-                      <p className="text-sm text-muted-foreground">prodotti alimentari in cui è presente il pesce, anche in piccole percentuali.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Pesce e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">prodotti alimentari in cui è presente il pesce, anche in piccole percentuali.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Arachidi e derivati</h4>
-                      <p className="text-sm text-muted-foreground">Snack confezionati, creme e condimenti in cui vi sia anche in piccole dosi.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Arachidi e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">Snack confezionati, creme e condimenti in cui vi sia anche in piccole dosi.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Soia e derivati</h4>
-                      <p className="text-sm text-muted-foreground">prodotti derivati come latte di soia, tofu, spaghetti di soia e simili</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Soia e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">prodotti derivati come latte di soia, tofu, spaghetti di soia e simili</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Molluschi e derivati</h4>
-                      <p className="text-sm text-muted-foreground">canestrello, cannolicchio, capasanta, cozza, ostrica, patella, vongola, tellina, ecc…</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Molluschi e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">canestrello, cannolicchio, capasanta, cozza, ostrica, patella, vongola, tellina, ecc…</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Sedano e derivati</h4>
-                      <p className="text-sm text-muted-foreground">sia in pezzi che all'interno di preparati per zuppe, salse e concentrati vegetali.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Sedano e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">sia in pezzi che all&apos;interno di preparati per zuppe, salse e concentrati vegetali.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Latte e derivati</h4>
-                      <p className="text-sm text-muted-foreground">ogni prodotto in cui viene usato il latte: yogurt, biscotti, torte, gelato e creme varie.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Latte e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">ogni prodotto in cui viene usato il latte: yogurt, biscotti, torte, gelato e creme varie.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Anidride solforosa e solfiti</h4>
-                      <p className="text-sm text-muted-foreground">anidride solforosa e solfiti in concentrazione superiori a 10 mg/kg o 10 mg/l espressi come SO2 – usati come conservanti, possiamo trovarli in: conserve di prodotti ittici, in cibi sott'aceto, sott'olio e in salamoia, nelle marmellate, nell'aceto, nei funghi secchi e nelle bibite analcoliche e succhi di frutta.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Anidride solforosa e solfiti</h4>
+                      <p className="text-sm text-card-foreground/85">anidride solforosa e solfiti in concentrazione superiori a 10 mg/kg o 10 mg/l espressi come SO2 – usati come conservanti, possiamo trovarli in: conserve di prodotti ittici, in cibi sott&apos;aceto, sott&apos;olio e in salamoia, nelle marmellate, nell&apos;aceto, nei funghi secchi e nelle bibite analcoliche e succhi di frutta.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Frutta a guscio e derivati</h4>
-                      <p className="text-sm text-muted-foreground">mandorle, nocciole, noci comuni, noci di acagiù, noci pecan, anacardi, pistacchi</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Frutta a guscio e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">mandorle, nocciole, noci comuni, noci di acagiù, noci pecan, anacardi, pistacchi</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Lupini e derivati</h4>
-                      <p className="text-sm text-muted-foreground">presenti in cibi vegan sotto forma di: arrosti, salamini, farine e similari.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Lupini e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">presenti in cibi vegan sotto forma di: arrosti, salamini, farine e similari.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Semi di sesamo e derivati</h4>
-                      <p className="text-sm text-muted-foreground">semi interi usati per il pane, farine che lo contengono in minima percentuale.</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Semi di sesamo e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">semi interi usati per il pane, farine che lo contengono in minima percentuale.</p>
                     </div>
 
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-lg">Senape e derivati</h4>
-                      <p className="text-sm text-muted-foreground">si può trovare nelle salse e nei condimenti, specie nella mostarda</p>
+                      <h4 className="font-semibold text-lg text-card-foreground">Senape e derivati</h4>
+                      <p className="text-sm text-card-foreground/85">si può trovare nelle salse e nei condimenti, specie nella mostarda</p>
                     </div>
                   </div>
 
@@ -960,43 +960,43 @@ export default function MenuPage() {
                       <div className="flex items-start gap-3">
                         <span className="text-lg">🌶️</span>
                         <div>
-                          <strong>Piccante</strong>
-                          <p className="text-sm text-muted-foreground">Il piatto è speziato e piccante</p>
+                          <strong className="text-card-foreground">Piccante</strong>
+                          <p className="text-sm text-card-foreground/85">Il piatto è speziato e piccante</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <span className="text-lg">🌱</span>
                         <div>
-                          <strong>Vegan</strong>
-                          <p className="text-sm text-muted-foreground">Il piatto è vegano</p>
+                          <strong className="text-card-foreground">Vegan</strong>
+                          <p className="text-sm text-card-foreground/85">Il piatto è vegano</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <span className="text-lg">✅</span>
                         <div>
-                          <strong>Senza Glutine</strong>
-                          <p className="text-sm text-muted-foreground">Il piatto è senza glutine e quindi adatto a tutte le persone intolleranti</p>
+                          <strong className="text-card-foreground">Senza Glutine</strong>
+                          <p className="text-sm text-card-foreground/85">Il piatto è senza glutine e quindi adatto a tutte le persone intolleranti</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <span className="text-lg">🆕</span>
                         <div>
-                          <strong>Novità</strong>
-                          <p className="text-sm text-muted-foreground">Il piatto è una novità appena aggiunta sul menù</p>
+                          <strong className="text-card-foreground">Novità</strong>
+                          <p className="text-sm text-card-foreground/85">Il piatto è una novità appena aggiunta sul menù</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <span className="text-lg">❄️</span>
                         <div>
-                          <strong>Prodotto abbattuto all'origine o surgelato</strong>
-                          <p className="text-sm text-muted-foreground">Il piatto contiene un ingrediente surgelato o stato abbattuto all'origine</p>
+                          <strong className="text-card-foreground">Prodotto abbattuto all&apos;origine o surgelato</strong>
+                          <p className="text-sm text-card-foreground/85">Il piatto contiene un ingrediente surgelato o stato abbattuto all&apos;origine</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-6 pt-6 border-t border-border">
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-card-foreground/90 leading-relaxed">
                       Per evitare spiacevoli inconvenienti si prega di informare preventivamente il nostro personale nel caso di allergie o intolleranze alimentari o nel caso in cui si stia seguendo una dieta vegetariana. Siamo preparati per consigliarti nel migliore dei modi.
                     </p>
                   </div>
@@ -1050,36 +1050,36 @@ export default function MenuPage() {
           <div className="bg-card border border-border rounded-lg p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
               <Clock className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl md:text-3xl font-bold">Orario</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-card-foreground">Orario</h2>
             </div>
             <div className="space-y-3">
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Lunedì</span>
-                <span className="text-muted-foreground font-medium">CHIUSO</span>
+                <span className="font-semibold text-card-foreground">Lunedì</span>
+                <span className="text-card-foreground/80 font-medium">CHIUSO</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Martedì</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Martedì</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Mercoledì</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Mercoledì</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Giovedì</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Giovedì</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Venerdì</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Venerdì</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="font-semibold">Sabato</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Sabato</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
               <div className="flex justify-between items-center py-2">
-                <span className="font-semibold">Domenica</span>
-                <span className="text-muted-foreground font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
+                <span className="font-semibold text-card-foreground">Domenica</span>
+                <span className="text-card-foreground/80 font-medium">12:00 - 15:00 | 19:00 - 23:00</span>
               </div>
             </div>
           </div>

@@ -7,14 +7,13 @@ import { Description } from "@/components/Description"
 import { Address } from "@/components/Address"
 import { Orari } from "@/components/Orari"
 import { Footer } from "@/components/Footer"
+import { useEffect, useState } from "react"
 
-// Immagini locali
-const coverImage = "/cop.png"
-const profileImage = "/profile.png"
+// Default content if API fails
+const defaultCoverImage = "/cop.png"
+const defaultProfileImage = "/profile.png"
 
-// Gallery media with descriptions (0.png to 21.png = 22 images)
-// You can mix images and videos, and add descriptions for each
-const galleryMedia = [
+const defaultGalleryMedia = [
   {
     id: 1,
     src: "/0.png",
@@ -171,7 +170,47 @@ const galleryMedia = [
   },
 ]
 
+interface SiteContent {
+  title?: string
+  subtitle?: string
+  description?: string
+  description2?: string
+  coverImage?: string
+  profileImage?: string
+  galleryMedia?: Array<{
+    id: number
+    src: string
+    alt: string
+    description: string
+    type: 'image' | 'video'
+  }>
+  address?: string
+  phone?: string
+  whatsapp?: string
+}
+
 export default function Home() {
+  const [content, setContent] = useState<SiteContent | null>(null)
+
+  useEffect(() => {
+    // Load content from API (fallback to defaults if not available)
+    fetch("/api/admin/content")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && !data.error) {
+          setContent(data)
+        }
+      })
+      .catch(() => {
+        // Use defaults if API fails
+        setContent(null)
+      })
+  }, [])
+
+  const coverImage = content?.coverImage || defaultCoverImage
+  const profileImage = content?.profileImage || defaultProfileImage
+  const galleryMedia = content?.galleryMedia || defaultGalleryMedia
+
   return (
     <main className="min-h-screen">
       <Navigation />
@@ -179,23 +218,51 @@ export default function Home() {
       {/* Hero Section with Cover and Profile */}
       <div className="pt-0 md:pt-16">
         <HeroSection coverImage={coverImage} profileImage={profileImage} />
+        {content?.title && (
+          <div className="container mx-auto px-4 mt-6 text-center">
+            <h2 className="text-lg md:text-xl text-muted-foreground mb-2">
+              {content.subtitle || "Tra i faraglioni e la vista del mare"}
+            </h2>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">{content.title}</h1>
+          </div>
+        )}
       </div>
 
       {/* Media Gallery Section */}
       <MediaGallery items={galleryMedia} />
 
       {/* Description Section */}
-      <Description />
+      {content?.description ? (
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              {content.description}
+            </p>
+            {content.description2 && (
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                {content.description2}
+              </p>
+            )}
+          </div>
+        </div>
+      ) : (
+        <Description />
+      )}
 
       {/* Orari Section */}
       <Orari />
 
       {/* Address Section */}
-      <Address />
+      {content?.address ? (
+        <div className="container mx-auto px-4 py-8 text-center">
+          <p className="text-muted-foreground">{content.address}</p>
+        </div>
+      ) : (
+        <Address />
+      )}
 
       {/* Footer */}
       <Footer />
     </main>
   )
 }
-

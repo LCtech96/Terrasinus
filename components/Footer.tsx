@@ -63,6 +63,21 @@ export function Footer() {
                 <span>Piazzale del Mediterraneo, 6, 90049 Terrasini PA</span>
               </div>
             </div>
+
+            {/* Created by Facevoice.ai */}
+            <div className="pt-6 border-t border-border">
+              <p className="text-center text-sm text-muted-foreground">
+                Created by{" "}
+                <a
+                  href="https://www.facevoice.ai/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline transition-colors"
+                >
+                  Facevoice.ai
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </footer>

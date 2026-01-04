@@ -118,6 +118,44 @@ ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_admin_password
 ```
 
+## Area Admin
+
+Il sito include un'area admin completa per gestire tutti i contenuti del sito.
+
+### Accesso Admin
+
+1. Vai su `http://localhost:3000/admin` (o `https://terrasinus.com/admin` in produzione)
+2. Accedi con le credenziali:
+   - Email: `terrasinussrl@gmail.com`
+   - Password: (configurata tramite variabile d'ambiente `ADMIN_PASSWORD`)
+
+### Funzionalità Admin
+
+L'area admin (`/admin/dashboard`) permette di:
+
+- ✏️ **Modificare testi**: Doppio click su qualsiasi testo per modificarlo
+- 🖼️ **Gestire immagini**: 
+  - Doppio click su qualsiasi immagine per modificarla
+  - Caricare nuove immagini
+  - Eliminare immagini esistenti
+- 📸 **Gestire gallery**:
+  - Aggiungere nuovi elementi alla gallery
+  - Modificare titoli e descrizioni delle immagini
+  - Rimuovere elementi dalla gallery
+- 💾 **Salvare modifiche**: Clicca su "Salva" nella toolbar superiore per salvare tutte le modifiche
+
+### Struttura Admin
+
+- `/admin` - Pagina di login
+- `/admin/dashboard` - Dashboard admin con modalità editing
+- `/api/admin/login` - API per autenticazione
+- `/api/admin/logout` - API per logout
+- `/api/admin/content` - API per caricare/salvare contenuti
+- `/api/admin/upload` - API per upload immagini
+- `/api/admin/delete-image` - API per eliminare immagini
+
+I contenuti modificati vengono salvati in `data/site-content.json` e vengono automaticamente caricati dal sito principale.
+
 ## Licenza
 
 Proprietario: Terrasinus

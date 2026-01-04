@@ -4,12 +4,12 @@ export function Description() {
       <div className="max-w-3xl mx-auto text-center">
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
           Nel cuore di Terrasini, affacciato sul mare cristallino della Sicilia, Terrasinus vi accoglie 
-          in un'atmosfera elegante e raffinata. La nostra cucina di pesce celebra le tradizioni siciliane con 
+          in un&apos;atmosfera elegante e raffinata. La nostra cucina di pesce celebra le tradizioni siciliane con 
           ingredienti freschissimi del territorio, selezionati ogni giorno dai nostri pescatori locali.
         </p>
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mt-6">
-          Ogni piatto racconta una storia di passione, sapori autentici e dedizione all'eccellenza culinaria. 
-          Venite a scoprire l'essenza del mare siciliano, servita con eleganza e calore mediterraneo.
+          Ogni piatto racconta una storia di passione, sapori autentici e dedizione all&apos;eccellenza culinaria. 
+          Venite a scoprire l&apos;essenza del mare siciliano, servita con eleganza e calore mediterraneo.
         </p>
       </div>
     </div>
