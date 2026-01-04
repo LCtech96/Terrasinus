@@ -4,7 +4,18 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || ''
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ''
 
 export async function verifyAdmin(email: string, password: string): Promise<boolean> {
-  return email === ADMIN_EMAIL && password === ADMIN_PASSWORD
+  // Trim to remove any whitespace
+  const trimmedEmail = email.trim()
+  const trimmedPassword = password.trim()
+  
+  // Check if env variables are set
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    console.error('ADMIN_EMAIL or ADMIN_PASSWORD not configured')
+    return false
+  }
+  
+  // Case-sensitive comparison
+  return trimmedEmail === ADMIN_EMAIL && trimmedPassword === ADMIN_PASSWORD
 }
 
 export async function setAdminSession(): Promise<void> {

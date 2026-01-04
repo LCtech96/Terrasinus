@@ -12,7 +12,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const isValid = await verifyAdmin(email, password)
+    // Trim email and password
+    const trimmedEmail = email.trim()
+    const trimmedPassword = password.trim()
+
+    const isValid = await verifyAdmin(trimmedEmail, trimmedPassword)
 
     if (!isValid) {
       return NextResponse.json(
