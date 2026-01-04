@@ -16,9 +16,32 @@ export async function POST(request: NextRequest) {
     const trimmedEmail = email.trim()
     const trimmedPassword = password.trim()
 
+    // Check if environment variables are configured
+    const adminEmail = process.env.ADMIN_EMAIL
+    const adminPassword = process.env.ADMIN_PASSWORD
+
+    if (!adminEmail || !adminPassword) {
+      console.error('ADMIN_EMAIL or ADMIN_PASSWORD not configured in environment variables')
+      return NextResponse.json(
+        { error: 'Configurazione server non valida. Contatta l\'amministratore.' },
+        { status: 500 }
+      )
+    }
+
     const isValid = await verifyAdmin(trimmedEmail, trimmedPassword)
 
     if (!isValid) {
+      // Log failed attempts in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Login attempt failed:', {
+          providedEmail: trimmedEmail,
+          providedPasswordLength: trimmedPassword.length,
+          expectedEmail: adminEmail,
+          expectedPasswordLength: adminPassword.length,
+          emailMatch: trimmedEmail === adminEmail,
+          passwordMatch: trimmedPassword === adminPassword
+        })
+      }
       return NextResponse.json(
         { error: 'Credenziali non valide' },
         { status: 401 }
