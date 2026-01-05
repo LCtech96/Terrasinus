@@ -38,12 +38,6 @@ export function HeroSection({ coverImage, profileImage }: HeroSectionProps) {
           </div>
         </div>
       </div>
-
-      {/* Title and Name */}
-      <div className="container mx-auto px-4 mt-6 text-center">
-        <h2 className="text-lg md:text-xl text-muted-foreground mb-2">Tra i faraglioni e la vista del mare</h2>
-        <h1 className="text-3xl md:text-5xl font-bold mb-4">Terrasinus</h1>
-      </div>
     </div>
   )
 }

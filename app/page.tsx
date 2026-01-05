@@ -218,14 +218,12 @@ export default function Home() {
       {/* Hero Section with Cover and Profile */}
       <div className="pt-0 md:pt-16">
         <HeroSection coverImage={coverImage} profileImage={profileImage} />
-        {content?.title && (
-          <div className="container mx-auto px-4 mt-6 text-center">
-            <h2 className="text-lg md:text-xl text-muted-foreground mb-2">
-              {content.subtitle || "Tra i faraglioni e la vista del mare"}
-            </h2>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">{content.title}</h1>
-          </div>
-        )}
+        <div className="container mx-auto px-4 mt-6 text-center">
+          <h2 className="text-lg md:text-xl text-muted-foreground mb-2">
+            {content?.subtitle || "Tra i faraglioni e la vista del mare"}
+          </h2>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">{content?.title || "Terrasinus"}</h1>
+        </div>
       </div>
 
       {/* Media Gallery Section */}

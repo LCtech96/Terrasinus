@@ -163,7 +163,7 @@ export default function AdminDashboard() {
         {/* Hero Section with Cover and Profile */}
         <div className="pt-0 md:pt-16">
           <div className="relative w-full">
-            {/* Cover Image */}
+            {/* Cover Image - Editable */}
             <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
               <EditableImage
                 src={content.coverImage}
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
             </div>
 
-            {/* Profile Image Container */}
+            {/* Profile Image Container - Editable */}
             <div className="container mx-auto px-4">
               <div className="relative -mt-20 md:-mt-24 flex justify-center">
                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-background shadow-lg">
@@ -189,22 +189,22 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
-
-            {/* Title and Name */}
-            <div className="container mx-auto px-4 mt-6 text-center space-y-2">
-              <EditableText
-                value={content.subtitle || "Tra i faraglioni e la vista del mare"}
-                onSave={(value) => updateContent("subtitle", value)}
-                tag="h2"
-                className="text-lg md:text-xl text-muted-foreground"
-              />
-              <EditableText
-                value={content.title}
-                onSave={(value) => updateContent("title", value)}
-                tag="h1"
-                className="text-3xl md:text-5xl font-bold"
-              />
-            </div>
+          </div>
+          
+          {/* Title and Subtitle - Editable */}
+          <div className="container mx-auto px-4 mt-6 text-center space-y-2">
+            <EditableText
+              value={content.subtitle || "Tra i faraglioni e la vista del mare"}
+              onSave={(value) => updateContent("subtitle", value)}
+              tag="h2"
+              className="text-lg md:text-xl text-muted-foreground"
+            />
+            <EditableText
+              value={content.title}
+              onSave={(value) => updateContent("title", value)}
+              tag="h1"
+              className="text-3xl md:text-5xl font-bold"
+            />
           </div>
         </div>
 
