@@ -194,7 +194,7 @@ export function AIChatWidget() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all flex items-center justify-center",
+          "fixed bottom-20 md:bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all flex items-center justify-center",
           isOpen && "hidden"
         )}
         aria-label="Apri chat"
@@ -204,7 +204,7 @@ export function AIChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-background border border-border rounded-lg shadow-2xl flex flex-col">
+        <div className="fixed bottom-20 md:bottom-6 right-6 z-50 w-96 h-[600px] bg-background border border-border rounded-lg shadow-2xl flex flex-col">
           {/* Header */}
           <div className="bg-primary text-primary-foreground p-4 rounded-t-lg flex items-center justify-between">
             <div>
@@ -234,10 +234,10 @@ export function AIChatWidget() {
                     "max-w-[80%] rounded-lg px-4 py-2",
                     msg.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-foreground"
+                      : "bg-muted text-black"
                   )}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                  <p className="text-sm whitespace-pre-wrap text-black">{msg.content}</p>
                 </div>
               </div>
             ))}
@@ -288,7 +288,7 @@ export function AIChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Scrivi un messaggio..."
-                className="flex-1 px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="flex-1 px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                 disabled={loading}
               />
               <button

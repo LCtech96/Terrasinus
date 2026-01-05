@@ -49,8 +49,8 @@ export default function BookingPage() {
       <div className="pt-16 md:pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Prenota un Tavolo</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-black">Prenota un Tavolo</h1>
+            <p className="text-black/80">
               Compila il form per prenotare il tuo tavolo a Terrasinus
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function BookingPage() {
 
           <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 md:p-8 space-y-6">
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold">
+              <label className="flex items-center gap-2 text-sm font-semibold text-black">
                 <User className="w-4 h-4" />
                 Nome e Cognome *
               </label>
@@ -75,13 +75,13 @@ export default function BookingPage() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                 placeholder="Mario Rossi"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold">
+              <label className="flex items-center gap-2 text-sm font-semibold text-black">
                 <Phone className="w-4 h-4" />
                 Telefono *
               </label>
@@ -90,13 +90,13 @@ export default function BookingPage() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                 placeholder="3206380567"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold">
+              <label className="flex items-center gap-2 text-sm font-semibold text-black">
                 <Mail className="w-4 h-4" />
                 Email *
               </label>
@@ -105,14 +105,14 @@ export default function BookingPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                 placeholder="mario.rossi@email.com"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-semibold">
+                <label className="flex items-center gap-2 text-sm font-semibold text-black">
                   <Users className="w-4 h-4" />
                   Numero Ospiti *
                 </label>
@@ -122,13 +122,13 @@ export default function BookingPage() {
                   min="1"
                   value={formData.guests}
                   onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                   placeholder="2"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-semibold">
+                <label className="flex items-center gap-2 text-sm font-semibold text-black">
                   <Calendar className="w-4 h-4" />
                   Data *
                 </label>
@@ -137,14 +137,14 @@ export default function BookingPage() {
                   required
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
                   min={new Date().toISOString().split('T')[0]}
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-semibold">
+              <label className="flex items-center gap-2 text-sm font-semibold text-black">
                 <Clock className="w-4 h-4" />
                 Orario *
               </label>
@@ -153,7 +153,7 @@ export default function BookingPage() {
                 required
                 value={formData.time}
                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-black"
               />
             </div>
 
