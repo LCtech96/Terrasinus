@@ -18,17 +18,25 @@ export async function GET() {
     }
 
     const files = await readdir(publicDir)
-    const imageFiles = files.filter(file => {
+    const mediaFiles = files.filter(file => {
       const ext = file.toLowerCase()
       return ext.endsWith('.png') || ext.endsWith('.jpg') || ext.endsWith('.jpeg') || 
-             ext.endsWith('.gif') || ext.endsWith('.webp') || ext.endsWith('.svg')
+             ext.endsWith('.gif') || ext.endsWith('.webp') || ext.endsWith('.svg') ||
+             ext.endsWith('.mp4') || ext.endsWith('.webm') || ext.endsWith('.mov') ||
+             ext.endsWith('.avi') || ext.endsWith('.mkv')
     })
 
-    const images = imageFiles.map(file => ({
-      name: file,
-      path: `/${file}`,
-      url: `/${file}`
-    }))
+    const images = mediaFiles.map(file => {
+      const ext = file.toLowerCase()
+      const isVideo = ext.endsWith('.mp4') || ext.endsWith('.webm') || ext.endsWith('.mov') ||
+                      ext.endsWith('.avi') || ext.endsWith('.mkv')
+      return {
+        name: file,
+        path: `/${file}`,
+        url: `/${file}`,
+        type: isVideo ? 'video' : 'image'
+      }
+    })
 
     return NextResponse.json({ images })
   } catch (error) {

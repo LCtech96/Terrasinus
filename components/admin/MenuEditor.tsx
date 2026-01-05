@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { EditableText } from "./EditableText"
+import { EditableImage } from "./EditableImage"
 import { Plus, Trash2 } from "lucide-react"
 
 interface MenuFisso {
@@ -20,6 +21,7 @@ interface MenuItem {
   name: string
   description?: string
   price: string
+  image?: string
   glutenFree?: boolean
   menuItem?: boolean
 }
@@ -96,6 +98,19 @@ export function MenuEditor({
       ...updatedSections[sectionIndex],
       items: updatedSections[sectionIndex].items.filter((_, i) => i !== itemIndex),
     }
+    onMenuSectionsChange(updatedSections)
+  }
+
+  const addMenuSection = () => {
+    const newSection: MenuSection = {
+      title: "Nuova Sezione",
+      items: [],
+    }
+    onMenuSectionsChange([...menuSections, newSection])
+  }
+
+  const removeMenuSection = (sectionIndex: number) => {
+    const updatedSections = menuSections.filter((_, i) => i !== sectionIndex)
     onMenuSectionsChange(updatedSections)
   }
 
@@ -270,6 +285,16 @@ export function MenuEditor({
       {/* Menu alla Carta Editor */}
       {activeTab === "carta" && (
         <div className="space-y-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold">Sezioni del Menù</h3>
+            <button
+              onClick={addMenuSection}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Aggiungi Sezione
+            </button>
+          </div>
           {menuSections.map((section, sectionIndex) => (
             <div key={sectionIndex} className="p-4 bg-card border border-border rounded-lg space-y-4">
               <div className="flex items-center justify-between">
@@ -283,17 +308,27 @@ export function MenuEditor({
                   tag="h4"
                   className="text-xl font-bold"
                 />
-                <button
-                  onClick={() => addMenuItem(sectionIndex)}
-                  className="p-2 bg-primary text-primary-foreground rounded"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => addMenuItem(sectionIndex)}
+                    className="p-2 bg-primary text-primary-foreground rounded"
+                    title="Aggiungi piatto"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => removeMenuSection(sectionIndex)}
+                    className="p-2 bg-red-600 text-white rounded"
+                    title="Rimuovi sezione"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               <div className="space-y-4">
                 {section.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="p-3 bg-background border border-border rounded space-y-2">
+                  <div key={itemIndex} className="p-3 bg-background border border-border rounded space-y-3">
                     <div className="flex items-center justify-between gap-2">
                       <EditableText
                         value={item.name}
@@ -304,10 +339,40 @@ export function MenuEditor({
                       <button
                         onClick={() => removeMenuItem(sectionIndex, itemIndex)}
                         className="p-1 bg-red-600 text-white rounded"
+                        title="Rimuovi piatto"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
+                    {/* Immagine del piatto */}
+                    {item.image && (
+                      <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border">
+                        <EditableImage
+                          src={item.image}
+                          alt={item.name}
+                          onSave={(src) => updateMenuItem(sectionIndex, itemIndex, "image", src)}
+                          onDelete={() => updateMenuItem(sectionIndex, itemIndex, "image", undefined)}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    {!item.image && (
+                      <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-dashed border-border flex items-center justify-center bg-muted/50">
+                        <button
+                          onClick={() => {
+                            // Apri un prompt o un selettore per scegliere un'immagine
+                            const imagePath = prompt("Inserisci il percorso dell'immagine (es: /image.png):")
+                            if (imagePath) {
+                              updateMenuItem(sectionIndex, itemIndex, "image", imagePath)
+                            }
+                          }}
+                          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                        >
+                          + Aggiungi Immagine
+                        </button>
+                      </div>
+                    )}
                     <EditableText
                       value={item.description || ""}
                       onSave={(value) => updateMenuItem(sectionIndex, itemIndex, "description", value)}
@@ -315,32 +380,39 @@ export function MenuEditor({
                       className="text-sm text-muted-foreground"
                       multiline
                     />
-                    <EditableText
-                      value={item.price}
-                      onSave={(value) => updateMenuItem(sectionIndex, itemIndex, "price", value)}
-                      tag="span"
-                      className="font-bold text-primary"
-                    />
-                    <div className="flex gap-2">
-                      <label className="flex items-center gap-2 text-sm">
-                        <input
-                          type="checkbox"
-                          checked={item.glutenFree || false}
-                          onChange={(e) => updateMenuItem(sectionIndex, itemIndex, "glutenFree", e.target.checked)}
-                        />
-                        Senza Glutine
-                      </label>
-                      <label className="flex items-center gap-2 text-sm">
-                        <input
-                          type="checkbox"
-                          checked={item.menuItem || false}
-                          onChange={(e) => updateMenuItem(sectionIndex, itemIndex, "menuItem", e.target.checked)}
-                        />
-                        Piatto Menù
-                      </label>
+                    <div className="flex items-center justify-between">
+                      <EditableText
+                        value={item.price}
+                        onSave={(value) => updateMenuItem(sectionIndex, itemIndex, "price", value)}
+                        tag="span"
+                        className="font-bold text-primary"
+                      />
+                      <div className="flex gap-2">
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={item.glutenFree || false}
+                            onChange={(e) => updateMenuItem(sectionIndex, itemIndex, "glutenFree", e.target.checked)}
+                          />
+                          Senza Glutine
+                        </label>
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={item.menuItem || false}
+                            onChange={(e) => updateMenuItem(sectionIndex, itemIndex, "menuItem", e.target.checked)}
+                          />
+                          Piatto Menù
+                        </label>
+                      </div>
                     </div>
                   </div>
                 ))}
+                {section.items.length === 0 && (
+                  <p className="text-center text-muted-foreground py-4">
+                    Nessun piatto in questa sezione. Clicca su &quot;+&quot; per aggiungerne uno.
+                  </p>
+                )}
               </div>
             </div>
           ))}

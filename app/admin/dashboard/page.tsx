@@ -22,9 +22,8 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [images, setImages] = useState<Array<{ name: string; path: string; url: string }>>([])
+  const [images, setImages] = useState<Array<{ name: string; path: string; url: string; type?: 'image' | 'video' }>>([])
   const [showImages, setShowImages] = useState(false)
-  const [showMenu, setShowMenu] = useState(false)
 
   useEffect(() => {
     checkAuthAndLoad()
@@ -188,7 +187,10 @@ export default function AdminDashboard() {
       </div>
 
       <main className="min-h-screen pt-12">
-        <Navigation />
+        {/* Navigation Bar - positioned below admin toolbar */}
+        <div className="pt-12 md:pt-16">
+          <Navigation />
+        </div>
         
         {/* Hero Section with Cover and Profile */}
         <div className="pt-0 md:pt-16">
@@ -344,65 +346,122 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <ImageIcon className="w-5 h-5" />
-                  <h3 className="text-xl font-bold">Immagini Caricate</h3>
+                  <h3 className="text-xl font-bold">Immagini e Video Disponibili</h3>
+                  <span className="text-sm text-muted-foreground">
+                    ({images.length} totali)
+                  </span>
                 </div>
                 <button
                   onClick={() => setShowImages(!showImages)}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                 >
-                  {showImages ? "Nascondi" : "Mostra"} Immagini
+                  {showImages ? "Nascondi" : "Mostra"} Tutte
                 </button>
               </div>
               {showImages && (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {images.map((img) => (
-                    <div
-                      key={img.name}
-                      className="relative group aspect-square border border-border rounded-lg overflow-hidden"
-                    >
-                      <img
-                        src={img.url}
-                        alt={img.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
-                        <p className="text-white text-xs text-center break-words">{img.name}</p>
-                      </div>
+                <div className="space-y-4">
+                  <div className="flex gap-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded border-2 border-green-600"></div>
+                      <span>Usata nella gallery</span>
                     </div>
-                  ))}
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-500 rounded border-2 border-gray-600"></div>
+                      <span>Non usata</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {images.map((img) => {
+                      const isUsed = content?.galleryMedia?.some(
+                        item => item.src === img.path || item.src === img.url
+                      ) || false
+                      return (
+                        <div
+                          key={img.name}
+                          className={`relative group aspect-square border-2 rounded-lg overflow-hidden ${
+                            isUsed 
+                              ? 'border-green-500 bg-green-500/10' 
+                              : 'border-border'
+                          }`}
+                        >
+                          {img.type === 'video' ? (
+                            <video
+                              src={img.url}
+                              className="w-full h-full object-cover"
+                              muted
+                              playsInline
+                            />
+                          ) : (
+                            <img
+                              src={img.url}
+                              alt={img.name}
+                              className="w-full h-full object-cover"
+                            />
+                          )}
+                          {/* Video indicator */}
+                          {img.type === 'video' && (
+                            <div className="absolute top-2 left-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                              ▶
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 gap-2">
+                            <p className="text-white text-xs text-center break-words font-semibold">{img.name}</p>
+                            <div className="flex gap-2 flex-wrap justify-center">
+                              {img.type === 'video' && (
+                                <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded">
+                                  Video
+                                </span>
+                              )}
+                              {isUsed && (
+                                <span className="text-xs bg-green-500 text-white px-2 py-1 rounded">
+                                  In uso
+                                </span>
+                              )}
+                              {!isUsed && (
+                                <span className="text-xs bg-gray-500 text-white px-2 py-1 rounded">
+                                  Disponibile
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          {isUsed && (
+                            <div className="absolute top-2 right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                              ✓
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                  {images.length === 0 && (
+                    <p className="text-center text-muted-foreground py-8">
+                      Nessuna immagine trovata nella cartella public
+                    </p>
+                  )}
                 </div>
               )}
             </div>
 
-            {/* Menu Editor Section */}
+            {/* Menu Editor Section - Always visible */}
             <div className="bg-card border border-border rounded-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <Menu className="w-5 h-5" />
                   <h3 className="text-xl font-bold">Editor Menù</h3>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setShowMenu(!showMenu)}
-                    className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-                  >
-                    {showMenu ? "Nascondi" : "Modifica"} Menù
-                  </button>
-                  <Link
-                    href="/menu"
-                    target="_blank"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Vedi Menù
-                  </Link>
-                </div>
+                <Link
+                  href="/menu"
+                  target="_blank"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Vedi Menù Pubblico
+                </Link>
               </div>
-              {showMenu && (
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Modifica il contenuto del menù. Le modifiche verranno salvate quando clicchi su &quot;Salva&quot; nella toolbar.
-                  </p>
-                  <MenuEditor
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Modifica il contenuto del menù. Le modifiche verranno salvate quando clicchi su &quot;Salva&quot; nella toolbar.
+                </p>
+                <MenuEditor
                     menuFisso={content.menuContent?.menuFisso || defaultMenuFisso}
                     menuSections={content.menuContent?.menuSections || []}
                     onMenuFissoChange={(menuFisso) => {
@@ -420,8 +479,7 @@ export default function AdminDashboard() {
                       })
                     }}
                   />
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
