@@ -298,7 +298,7 @@ export function MenuEditor({
                       <EditableText
                         value={item.name}
                         onSave={(value) => updateMenuItem(sectionIndex, itemIndex, "name", value)}
-                        tag="h5"
+                        tag="h4"
                         className="font-semibold flex-1"
                       />
                       <button

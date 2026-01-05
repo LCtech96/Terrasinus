@@ -82,6 +82,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Rimuovi trigger esistenti se presenti
+DROP TRIGGER IF EXISTS update_site_content_updated_at ON site_content;
+DROP TRIGGER IF EXISTS update_gallery_media_updated_at ON gallery_media;
+DROP TRIGGER IF EXISTS update_menu_content_updated_at ON menu_content;
+DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;
+
+-- Crea i trigger
 CREATE TRIGGER update_site_content_updated_at
   BEFORE UPDATE ON site_content
   FOR EACH ROW
@@ -162,6 +169,16 @@ ALTER TABLE site_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gallery_media ENABLE ROW LEVEL SECURITY;
 ALTER TABLE menu_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+
+-- Rimuovi policy esistenti se presenti
+DROP POLICY IF EXISTS "Anyone can read site_content" ON site_content;
+DROP POLICY IF EXISTS "Only authenticated users can update site_content" ON site_content;
+DROP POLICY IF EXISTS "Anyone can read gallery_media" ON gallery_media;
+DROP POLICY IF EXISTS "Only authenticated users can manage gallery_media" ON gallery_media;
+DROP POLICY IF EXISTS "Anyone can read menu_content" ON menu_content;
+DROP POLICY IF EXISTS "Only authenticated users can manage menu_content" ON menu_content;
+DROP POLICY IF EXISTS "Only authenticated users can read admin_users" ON admin_users;
+DROP POLICY IF EXISTS "Only authenticated users can manage admin_users" ON admin_users;
 
 -- Policy per site_content: tutti possono leggere, solo admin può modificare
 CREATE POLICY "Anyone can read site_content"

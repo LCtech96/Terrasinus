@@ -148,6 +148,18 @@ export default function AdminDashboard() {
     )
   }
 
+  const defaultMenuFisso = {
+    title: "🌿 Menù Fisso Invernale – €35 🌿",
+    description: "Disponibile tutti i giorni, a pranzo e a cena (esclusi la domenica ed i giorni festivi)",
+    warning: "⚠️ Il menù fisso è personale e non può essere condiviso o diviso tra più persone.",
+    courses: {
+      antipasti: ["Insalata di mare", "Cocktail di gamberi", "Arancininetta", "Caponata di pesce"],
+      primi: ["Busiate con pesce spada e melanzane", "oppure", "Pacchero al ragù di cernia"],
+      secondo: ["Frittura mista"],
+      bevanda: ["Acqua", "+ a scelta:", "• 1 calice di vino", "o", "• Coca-Cola 33 cl", "o", "• Birra 33 cl"]
+    }
+  }
+
   return (
     <div className="relative">
       {/* Admin Toolbar */}
@@ -391,34 +403,23 @@ export default function AdminDashboard() {
                     Modifica il contenuto del menù. Le modifiche verranno salvate quando clicchi su &quot;Salva&quot; nella toolbar.
                   </p>
                   <MenuEditor
-                    menuFisso={content.menuContent?.menuFisso || {
-                      title: "🌿 Menù Fisso Invernale – €35 🌿",
-                      description: "Disponibile tutti i giorni, a pranzo e a cena (esclusi la domenica ed i giorni festivi)",
-                      warning: "⚠️ Il menù fisso è personale e non può essere condiviso o diviso tra più persone.",
-                      courses: {
-                        antipasti: ["Insalata di mare", "Cocktail di gamberi", "Arancininetta", "Caponata di pesce"],
-                        primi: ["Busiate con pesce spada e melanzane", "oppure", "Pacchero al ragù di cernia"],
-                        secondo: ["Frittura mista"],
-                        bevanda: ["Acqua", "+ a scelta:", "• 1 calice di vino", "o", "• Coca-Cola 33 cl", "o", "• Birra 33 cl"]
-                      }
-                    }}
+                    menuFisso={content.menuContent?.menuFisso || defaultMenuFisso}
                     menuSections={content.menuContent?.menuSections || []}
-                      onMenuFissoChange={(menuFisso) => {
-                        if (!content) return
-                        setContent({
-                          ...content,
-                          menuContent: { ...(content.menuContent || {}), menuFisso }
-                        })
-                      }}
-                      onMenuSectionsChange={(menuSections) => {
-                        if (!content) return
-                        setContent({
-                          ...content,
-                          menuContent: { ...(content.menuContent || {}), menuSections }
-                        })
-                      }}
-                    />
-                  )}
+                    onMenuFissoChange={(menuFisso) => {
+                      if (!content) return
+                      setContent({
+                        ...content,
+                        menuContent: { ...(content.menuContent || {}), menuFisso }
+                      })
+                    }}
+                    onMenuSectionsChange={(menuSections) => {
+                      if (!content) return
+                      setContent({
+                        ...content,
+                        menuContent: { ...(content.menuContent || {}), menuSections }
+                      })
+                    }}
+                  />
                 </div>
               )}
             </div>
