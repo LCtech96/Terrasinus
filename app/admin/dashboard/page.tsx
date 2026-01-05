@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { LogOut, Save, Image as ImageIcon, FileText, UtensilsCrossed } from "lucide-react"
+import { LogOut, Save, Image as ImageIcon, FileText, UtensilsCrossed, Calendar } from "lucide-react"
 import type { SiteContent } from "@/lib/admin-content"
 import { EditableText } from "@/components/admin/EditableText"
 import { EditableImage } from "@/components/admin/EditableImage"
 import { MenuEditor } from "@/components/admin/MenuEditor"
 import { Plus, Trash2 } from "lucide-react"
 
-type ActiveSection = "photos" | "texts" | "menu" | null
+type ActiveSection = "photos" | "texts" | "menu" | "bookings" | null
 
 export default function AdminDashboard() {
   const router = useRouter()
@@ -18,11 +18,34 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [activeSection, setActiveSection] = useState<ActiveSection>(null)
+  const [bookings, setBookings] = useState<any[]>([])
+  const [loadingBookings, setLoadingBookings] = useState(false)
 
   useEffect(() => {
     checkAuthAndLoad()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (activeSection === "bookings") {
+      loadBookings()
+    }
+  }, [activeSection])
+
+  const loadBookings = async () => {
+    setLoadingBookings(true)
+    try {
+      const response = await fetch("/api/bookings")
+      if (response.ok) {
+        const data = await response.json()
+        setBookings(data.bookings || [])
+      }
+    } catch (error) {
+      console.error("Error loading bookings:", error)
+    } finally {
+      setLoadingBookings(false)
+    }
+  }
 
   const checkAuthAndLoad = async () => {
     try {
@@ -158,7 +181,7 @@ export default function AdminDashboard() {
       <main className="pt-20 pb-12">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Main Action Buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <button
               onClick={() => setActiveSection(activeSection === "photos" ? null : "photos")}
               className={`p-6 rounded-lg border-2 transition-all ${
@@ -212,6 +235,25 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-bold text-black">Gestione Menu</h2>
                 <p className="text-sm text-black/70 text-center">
                   Modifica i piatti: nome, prezzo, ingredienti, aggiungi o rimuovi
+                </p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection(activeSection === "bookings" ? null : "bookings")}
+              className={`p-6 rounded-lg border-2 transition-all ${
+                activeSection === "bookings"
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/50"
+              }`}
+            >
+              <div className="flex flex-col items-center gap-4">
+                <div className={`p-4 rounded-full ${activeSection === "bookings" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
+                  <Calendar className="w-8 h-8" />
+                </div>
+                <h2 className="text-xl font-bold text-black">Prenotazioni</h2>
+                <p className="text-sm text-black/70 text-center">
+                  Visualizza e gestisci le prenotazioni ricevute
                 </p>
               </div>
             </button>
@@ -394,6 +436,84 @@ export default function AdminDashboard() {
                   })
                 }}
               />
+            </div>
+          )}
+
+          {/* Bookings Section */}
+          {activeSection === "bookings" && (
+            <div className="bg-card border border-border rounded-lg p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-bold text-black">Prenotazioni</h3>
+                <button
+                  onClick={loadBookings}
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+                >
+                  Aggiorna
+                </button>
+              </div>
+
+              {loadingBookings ? (
+                <div className="text-center py-8 text-black">Caricamento...</div>
+              ) : bookings.length === 0 ? (
+                <div className="text-center py-8 text-black/70">
+                  Nessuna prenotazione ricevuta
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {bookings
+                    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    .map((booking) => (
+                      <div
+                        key={booking.id}
+                        className="border border-border rounded-lg p-4 space-y-2 bg-background"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h4 className="font-bold text-lg text-black">{booking.name}</h4>
+                            <p className="text-sm text-black/70">
+                              {new Date(booking.createdAt).toLocaleString("it-IT")}
+                            </p>
+                          </div>
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              booking.status === "confirmed"
+                                ? "bg-green-100 text-green-800"
+                                : booking.status === "cancelled"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
+                          >
+                            {booking.status === "pending"
+                              ? "In attesa"
+                              : booking.status === "confirmed"
+                              ? "Confermata"
+                              : "Cancellata"}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                          <div>
+                            <p className="text-sm font-semibold text-black">Telefono</p>
+                            <p className="text-black/80">{booking.phone}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-black">Email</p>
+                            <p className="text-black/80">{booking.email}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-black">Ospiti</p>
+                            <p className="text-black/80">{booking.guests} persone</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-black">Data e Ora</p>
+                            <p className="text-black/80">
+                              {booking.date} alle {booking.time}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
           )}
         </div>

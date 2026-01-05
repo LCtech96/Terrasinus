@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
-import { Users, ShoppingBag, Moon, Sun, X } from "lucide-react"
+import { Users, ShoppingBag, Moon, Sun, X, Calendar } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface NavigationProps {
@@ -24,6 +24,8 @@ export function Navigation({ className }: NavigationProps) {
   const handleClick = (item: string) => {
     if (item === "takeaway") {
       router.push("/menu")
+    } else if (item === "booking") {
+      router.push("/booking")
     } else {
       setShowDisclaimer(item)
       setTimeout(() => setShowDisclaimer(null), 3000)
@@ -33,6 +35,7 @@ export function Navigation({ className }: NavigationProps) {
   const navItems = [
     { id: "about", label: "Chi siamo", icon: Users },
     { id: "takeaway", label: "Menù", icon: ShoppingBag },
+    { id: "booking", label: "Prenota", icon: Calendar },
   ]
 
   return (
