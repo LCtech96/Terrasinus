@@ -171,8 +171,8 @@ export default function AdminDashboard() {
                 <div className={`p-4 rounded-full ${activeSection === "photos" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
                   <ImageIcon className="w-8 h-8" />
                 </div>
-                <h2 className="text-xl font-bold">Gestione Foto</h2>
-                <p className="text-sm text-muted-foreground text-center">
+                <h2 className="text-xl font-bold text-black">Gestione Foto</h2>
+                <p className="text-sm text-black/70 text-center">
                   Modifica le foto della home page: copertina, profilo e gallery
                 </p>
               </div>
@@ -190,8 +190,8 @@ export default function AdminDashboard() {
                 <div className={`p-4 rounded-full ${activeSection === "texts" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
                   <FileText className="w-8 h-8" />
                 </div>
-                <h2 className="text-xl font-bold">Gestione Testi</h2>
-                <p className="text-sm text-muted-foreground text-center">
+                <h2 className="text-xl font-bold text-black">Gestione Testi</h2>
+                <p className="text-sm text-black/70 text-center">
                   Modifica i testi della home page: titolo, sottotitolo, descrizioni
                 </p>
               </div>
@@ -209,8 +209,8 @@ export default function AdminDashboard() {
                 <div className={`p-4 rounded-full ${activeSection === "menu" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
                   <UtensilsCrossed className="w-8 h-8" />
                 </div>
-                <h2 className="text-xl font-bold">Gestione Menu</h2>
-                <p className="text-sm text-muted-foreground text-center">
+                <h2 className="text-xl font-bold text-black">Gestione Menu</h2>
+                <p className="text-sm text-black/70 text-center">
                   Modifica i piatti: nome, prezzo, ingredienti, aggiungi o rimuovi
                 </p>
               </div>
@@ -220,11 +220,11 @@ export default function AdminDashboard() {
           {/* Photos Section */}
           {activeSection === "photos" && (
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
-              <h3 className="text-2xl font-bold">Gestione Foto</h3>
+              <h3 className="text-2xl font-bold text-black">Gestione Foto</h3>
               
               {/* Cover Image */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold">Immagine di Copertina</label>
+                <label className="text-sm font-semibold text-black">Immagine di Copertina</label>
                 <div className="relative w-full h-64 rounded-lg overflow-hidden border border-border">
                   <EditableImage
                     src={content.coverImage}
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
 
               {/* Profile Image */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold">Immagine Profilo</label>
+                <label className="text-sm font-semibold text-black">Immagine Profilo</label>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-border mx-auto">
                   <EditableImage
                     src={content.profileImage}
@@ -253,7 +253,7 @@ export default function AdminDashboard() {
               {/* Gallery */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-semibold">Gallery Immagini</label>
+                  <label className="text-sm font-semibold text-black">Gallery Immagini</label>
                   <button
                     onClick={addGalleryItem}
                     className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
@@ -304,11 +304,11 @@ export default function AdminDashboard() {
           {/* Texts Section */}
           {activeSection === "texts" && (
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
-              <h3 className="text-2xl font-bold">Gestione Testi</h3>
+              <h3 className="text-2xl font-bold text-black">Gestione Testi</h3>
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Titolo</label>
+                  <label className="text-sm font-semibold text-black">Titolo</label>
                   <EditableText
                     value={content.title}
                     onSave={(value) => updateContent("title", value)}
@@ -318,7 +318,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Sottotitolo</label>
+                  <label className="text-sm font-semibold text-black">Sottotitolo</label>
                   <EditableText
                     value={content.subtitle || ""}
                     onSave={(value) => updateContent("subtitle", value)}
@@ -328,7 +328,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Descrizione</label>
+                  <label className="text-sm font-semibold text-black">Descrizione</label>
                   <EditableText
                     value={content.description || ""}
                     onSave={(value) => updateContent("description", value)}
@@ -339,7 +339,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Descrizione 2</label>
+                  <label className="text-sm font-semibold text-black">Descrizione 2</label>
                   <EditableText
                     value={content.description2 || ""}
                     onSave={(value) => updateContent("description2", value)}
@@ -350,7 +350,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold">Indirizzo</label>
+                  <label className="text-sm font-semibold text-black">Indirizzo</label>
                   <EditableText
                     value={content.address || ""}
                     onSave={(value) => updateContent("address", value)}
@@ -365,7 +365,7 @@ export default function AdminDashboard() {
           {/* Menu Section */}
           {activeSection === "menu" && (
             <div className="bg-card border border-border rounded-lg p-6 space-y-6">
-              <h3 className="text-2xl font-bold">Gestione Menu</h3>
+              <h3 className="text-2xl font-bold text-black">Gestione Menu</h3>
               <MenuEditor
                 menuFisso={content.menuContent?.menuFisso || {
                   title: "🌿 Menù Fisso Invernale – €35 🌿",
