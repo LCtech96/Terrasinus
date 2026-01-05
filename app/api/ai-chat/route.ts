@@ -65,7 +65,39 @@ function extractBookingIntent(message: string): boolean {
 }
 
 function generateResponse(message: string, context: string, bookingData: any): { response: string; bookingRequest?: boolean; bookingData?: any } {
-  const lowerMessage = message.toLowerCase()
+  const lowerMessage = message.toLowerCase().trim()
+  
+  // Data e ora
+  if (lowerMessage.includes('che giorno') || lowerMessage.includes('che data') || lowerMessage.includes('oggi')) {
+    const today = new Date()
+    const days = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato']
+    const dayName = days[today.getDay()]
+    const dateStr = today.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
+    return {
+      response: `Oggi è ${dayName} ${dateStr}. ${dayName === 'lunedì' ? 'Siamo chiusi oggi.' : `Siamo aperti dalle 12:00 alle 15:00 e dalle 19:00 alle 23:00.`}`,
+    }
+  }
+  
+  if (lowerMessage.includes('che ora') || lowerMessage.includes('orario attuale')) {
+    const now = new Date()
+    const timeStr = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })
+    return {
+      response: `Sono le ${timeStr}. ${now.getHours() >= 12 && now.getHours() < 15 ? 'Siamo aperti per il pranzo!' : now.getHours() >= 19 && now.getHours() < 23 ? 'Siamo aperti per la cena!' : 'Controlla i nostri orari: martedì-domenica 12:00-15:00 e 19:00-23:00, lunedì chiusi.'}`,
+    }
+  }
+  
+  // Saluti
+  if (lowerMessage === 'ciao' || lowerMessage === 'salve' || lowerMessage === 'buongiorno' || lowerMessage === 'buonasera' || lowerMessage === 'buon pomeriggio') {
+    const hour = new Date().getHours()
+    let greeting = 'Ciao'
+    if (hour >= 6 && hour < 13) greeting = 'Buongiorno'
+    else if (hour >= 13 && hour < 18) greeting = 'Buon pomeriggio'
+    else greeting = 'Buonasera'
+    
+    return {
+      response: `${greeting}! Sono l'assistente digitale di Terrasinus. Posso aiutarti con informazioni su orari, menu, prenotazioni e molto altro. Cosa vorresti sapere?`,
+    }
+  }
   
   // Booking intent
   if (extractBookingIntent(lowerMessage) || lowerMessage.includes('prenota')) {
@@ -167,9 +199,16 @@ function generateResponse(message: string, context: string, bookingData: any): {
     }
   }
   
-  // Default response
+  // Domande generiche sul ristorante
+  if (lowerMessage.includes('chi siete') || lowerMessage.includes('cosa siete') || lowerMessage.includes('che tipo')) {
+    return {
+      response: "Terrasinus è un ristorante di pesce a Terrasini, Sicilia. Offriamo cucina tradizionale siciliana con ingredienti freschissimi del territorio, selezionati ogni giorno dai nostri pescatori locali. Siamo affacciati sul mare cristallino della Sicilia.",
+    }
+  }
+  
+  // Default response - più specifica
   return {
-    response: "Grazie per la tua domanda! Posso aiutarti con informazioni su orari, menu, prenotazioni e molto altro. Cosa vorresti sapere?",
+    response: "Posso aiutarti con informazioni su orari di apertura, menu, prenotazioni, indirizzo e contatti. Fammi una domanda specifica e ti risponderò!",
   }
 }
 

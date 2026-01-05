@@ -1022,7 +1022,7 @@ export default function MenuPage() {
           <div className="bg-card border border-border rounded-lg overflow-hidden">
             <div className="aspect-video w-full bg-muted relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.285346!2d13.0849444!3d38.1469444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x131991a49e22749f%3A0xc352216cb5cf9a8d!2sRistorante%20TerraSinus!5e0!3m2!1sit!2sit!4v1234567890123!5m2!1sit!2sit"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.285346!2d13.0849444!3d38.1469444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x131991a49e22749f%3A0xc352216cb5cf9a8d!2sRistorante%20TerraSinus!5e0!3m2!1sit!2sit!4v1698765432109!5m2!1sit!2sit"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -1032,6 +1032,17 @@ export default function MenuPage() {
                 className="w-full h-full"
                 title="Mappa Ristorante Terrasinus - Piazzale del Mediterraneo, 6, 90049 Terrasini PA"
               />
+              {/* Fallback se l'iframe non carica */}
+              <div className="absolute inset-0 flex items-center justify-center bg-muted/50 pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+                <a
+                  href="https://maps.app.goo.gl/HHESm7FGt7BpV1zJ8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pointer-events-auto px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+                >
+                  Apri in Google Maps
+                </a>
+              </div>
             </div>
             <div className="p-4 text-center border-t border-border bg-card">
               <a
