@@ -123,7 +123,7 @@ export function MenuEditor({
           className={`px-4 py-2 font-semibold transition-colors ${
             activeTab === "fisso"
               ? "border-b-2 border-primary text-primary"
-              : "text-muted-foreground hover:text-foreground"
+              : "text-black/70 hover:text-black"
           }`}
         >
           Menù Fisso
@@ -133,7 +133,7 @@ export function MenuEditor({
           className={`px-4 py-2 font-semibold transition-colors ${
             activeTab === "carta"
               ? "border-b-2 border-primary text-primary"
-              : "text-muted-foreground hover:text-foreground"
+              : "text-black/70 hover:text-black"
           }`}
         >
           Menù alla Carta
@@ -147,13 +147,13 @@ export function MenuEditor({
             value={menuFisso.title}
             onSave={(value) => updateMenuFisso("title", value)}
             tag="h3"
-            className="text-2xl font-bold"
+            className="text-2xl font-bold text-black"
           />
           <EditableText
             value={menuFisso.description}
             onSave={(value) => updateMenuFisso("description", value)}
             tag="p"
-            className="text-muted-foreground"
+            className="text-black/80"
             multiline
           />
           <EditableText
@@ -167,7 +167,7 @@ export function MenuEditor({
           {/* Antipasti */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">Antipasti</h4>
+              <h4 className="font-semibold text-black">Antipasti</h4>
               <button
                 onClick={() => addMenuFissoCourseItem("antipasti")}
                 className="p-1 bg-primary text-primary-foreground rounded"
@@ -181,7 +181,7 @@ export function MenuEditor({
                   value={item}
                   onSave={(value) => updateMenuFissoCourse("antipasti", index, value)}
                   tag="span"
-                  className="flex-1"
+                  className="flex-1 text-black"
                 />
                 <button
                   onClick={() => removeMenuFissoCourseItem("antipasti", index)}
@@ -196,7 +196,7 @@ export function MenuEditor({
           {/* Primi */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">Primi</h4>
+              <h4 className="font-semibold text-black">Primi</h4>
               <button
                 onClick={() => addMenuFissoCourseItem("primi")}
                 className="p-1 bg-primary text-primary-foreground rounded"
@@ -210,7 +210,7 @@ export function MenuEditor({
                   value={item}
                   onSave={(value) => updateMenuFissoCourse("primi", index, value)}
                   tag="span"
-                  className="flex-1"
+                  className="flex-1 text-black"
                 />
                 <button
                   onClick={() => removeMenuFissoCourseItem("primi", index)}
@@ -225,7 +225,7 @@ export function MenuEditor({
           {/* Secondo */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">Secondo</h4>
+              <h4 className="font-semibold text-black">Secondo</h4>
               <button
                 onClick={() => addMenuFissoCourseItem("secondo")}
                 className="p-1 bg-primary text-primary-foreground rounded"
@@ -239,7 +239,7 @@ export function MenuEditor({
                   value={item}
                   onSave={(value) => updateMenuFissoCourse("secondo", index, value)}
                   tag="span"
-                  className="flex-1"
+                  className="flex-1 text-black"
                 />
                 <button
                   onClick={() => removeMenuFissoCourseItem("secondo", index)}
@@ -254,7 +254,7 @@ export function MenuEditor({
           {/* Bevanda */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold">Bevanda</h4>
+              <h4 className="font-semibold text-black">Bevanda</h4>
               <button
                 onClick={() => addMenuFissoCourseItem("bevanda")}
                 className="p-1 bg-primary text-primary-foreground rounded"
@@ -268,7 +268,7 @@ export function MenuEditor({
                   value={item}
                   onSave={(value) => updateMenuFissoCourse("bevanda", index, value)}
                   tag="span"
-                  className="flex-1"
+                  className="flex-1 text-black"
                 />
                 <button
                   onClick={() => removeMenuFissoCourseItem("bevanda", index)}

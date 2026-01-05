@@ -36,17 +36,29 @@ export function EditableText({
     setEditValue(value)
   }, [value])
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setIsEditing(true)
     setEditValue(value)
   }
 
-  const handleSave = () => {
-    onSave(editValue)
+  const handleSave = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    if (editValue.trim() !== value.trim()) {
+      onSave(editValue.trim())
+    }
     setIsEditing(false)
   }
 
-  const handleCancel = () => {
+  const handleCancel = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     setEditValue(value)
     setIsEditing(false)
   }
@@ -72,9 +84,15 @@ export function EditableText({
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            onBlur={handleSave}
+            onBlur={() => {
+              // Delay to allow button clicks
+              setTimeout(() => {
+                if (document.activeElement?.closest('.absolute')) return
+                handleSave()
+              }, 200)
+            }}
             className={cn(
-              "w-full p-2 border-2 border-primary rounded-lg bg-background",
+              "w-full p-2 border-2 border-primary rounded-lg bg-background text-black",
               className
             )}
             rows={4}
@@ -86,25 +104,35 @@ export function EditableText({
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            onBlur={handleSave}
+            onBlur={() => {
+              // Delay to allow button clicks
+              setTimeout(() => {
+                if (document.activeElement?.closest('.absolute')) return
+                handleSave()
+              }, 200)
+            }}
             className={cn(
-              "w-full p-2 border-2 border-primary rounded-lg bg-background",
+              "w-full p-2 border-2 border-primary rounded-lg bg-background text-black",
               className
             )}
           />
         )}
-        <div className="absolute top-2 right-2 flex gap-2">
+        <div className="absolute top-2 right-2 flex gap-2 z-10">
           <button
-            onClick={handleSave}
+            onClick={(e) => handleSave(e)}
+            onMouseDown={(e) => e.preventDefault()}
             className="p-1 bg-green-600 text-white rounded hover:bg-green-700"
             title="Salva"
+            type="button"
           >
             <Check className="w-4 h-4" />
           </button>
           <button
-            onClick={handleCancel}
+            onClick={(e) => handleCancel(e)}
+            onMouseDown={(e) => e.preventDefault()}
             className="p-1 bg-red-600 text-white rounded hover:bg-red-700"
             title="Annulla"
+            type="button"
           >
             <X className="w-4 h-4" />
           </button>
@@ -118,7 +146,7 @@ export function EditableText({
       className="relative group cursor-pointer"
       onDoubleClick={handleDoubleClick}
     >
-      <Tag className={cn("group-hover:outline group-hover:outline-2 group-hover:outline-dashed group-hover:outline-primary", className)}>
+      <Tag className={cn("group-hover:outline group-hover:outline-2 group-hover:outline-dashed group-hover:outline-primary text-black", className)}>
         {value}
       </Tag>
       <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-primary-foreground px-2 py-1 rounded text-xs flex items-center gap-1">
